@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Shin Optimizer Pro v2</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial;
+      background: #0b0f14;
+      color: white;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 260px;
+      background: #0f1720;
+      height: 100vh;
+      padding: 20px;
+      box-sizing: border-box;
+      border-right: 1px solid #1f2a36;
+    }
+
+    .logo {
+      color: #00ff99;
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 25px;
+    }
+
+    .menu button {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 12px;
+      background: #141c25;
+      border: 1px solid #1f2a36;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .menu button:hover {
+      background: #00ff99;
+      color: black;
+    }
+
+    .main {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .card {
+      background: #111a23;
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #1f2a36;
+    }
+
+    .big {
+      grid-column: span 2;
+    }
+
+    .output {
+      background: #000;
+      padding: 10px;
+      height: 260px;
+      overflow: auto;
+      font-size: 12px;
+      white-space: pre-wrap;
+      border-radius: 8px;
+    }
+
+    .stat {
+      font-size: 14px;
+      color: #aaa;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="sidebar">
+  <div class="logo">SHIN OPTIMIZER PRO</div>
+
+  <div class="menu">
+    <button onclick="dashboard()">📊 Dashboard</button>
+    <button onclick="boost()">⚡ Performance Mode</button>
+    <button onclick="clean()">🧹 Clean Temp</button>
+    <button onclick="dns()">🌐 Flush DNS</button>
+    <button onclick="tasks()">⚙️ Processes</button>
+    <button onclick="disk()">💾 Disk Info</button>
+    <button onclick="summary()">🧠 Performance</button>
+
+    <hr style="border:0; border-top:1px solid #1f2a36; margin:10px 0;">
+
+    <button onclick="fullBoost()">🚀 Full Boost Mode</button>
+    <button onclick="deepClean()">🔥 Deep Cleanup</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="grid">
+
+    <div class="card big">
+      <h2>System Dashboard</h2>
+      <div id="stats" class="stat">Loading...</div>
+    </div>
+
+    <div class="card big">
+      <h3>Output Console</h3>
+      <div id="output" class="output">Ready...</div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+const { ipcRenderer } = require("electron");
+
+async function dashboard() {
+  const d = await ipcRenderer.invoke("system-info");
+
+  document.getElementById("stats").innerText =
+`CPU: ${d.cpu}
+Cores: ${d.cores}
+RAM: ${d.ramTotal} GB
+Free RAM: ${d.ramFree} GB
+Platform: ${d.platform}
+Uptime: ${d.uptime} mins`;
+
+  document.getElementById("output").innerText = "Dashboard Loaded ✔";
+}
+
+async function boost() {
+  document.getElementById("output").innerText =
+    await ipcRenderer.invoke("power-mode");
+}
+
+async function clean() {
+  document.getElementById("output").innerText =
+    await ipcRenderer.invoke("clean-temp");
+}
+
+async function dns() {
+  document.getElementById("output").innerText =
+    await ipcRenderer.invoke("flush-dns");
+}
+
+async function tasks() {
+  const t = await ipcRenderer.invoke("tasks");
+  document.getElementById("output").innerText = t;
+}
+
+async function disk() {
+  const d = await ipcRenderer.invoke("disk-info");
+  document.getElementById("output").innerText = d;
+}
+
+async function summary() {
+  const s = await ipcRenderer.invoke("summary");
+
+  document.getElementById("output").innerText =
+`CPU Load: ${s.cpuLoad}
+Memory Usage: ${s.memoryUsage}%`;
+}
+
+async function fullBoost() {
+  document.getElementById("output").innerText =
+    await ipcRenderer.invoke("system-cleanup");
+}
+
+async function deepClean() {
+  document.getElementById("output").innerText =
+    await ipcRenderer.invoke("deep-cleanup");
+}
+</script>
+
+</body>
+</html>

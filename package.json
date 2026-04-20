@@ -1,0 +1,21 @@
+{
+  "name": "shin-optimizer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "description": "System Optimizer Tool",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "appId": "shin.optimizer.app",
+    "productName": "Shin Optimizer",
+    "win": {
+      "target": "nsis"
+    }
+  },
+  "devDependencies": {
+    "electron": "^41.2.1",
+    "electron-builder": "^26.8.1"
+  }
+}
