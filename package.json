@@ -1,21 +1,16 @@
 {
   "name": "shin-optimizer",
-  "version": "1.0.0",
-  "main": "index.js",
-  "description": "System Optimizer Tool",
+  "version": "1.1.0",
+  "description": "Clean & Fluid System Optimizer for Windows",
+  "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "dist": "electron-builder"
+    "build": "electron-packager . ShinOptimizer --platform=win32 --arch=x64 --out=dist"
   },
-  "build": {
-    "appId": "shin.optimizer.app",
-    "productName": "Shin Optimizer",
-    "win": {
-      "target": "nsis"
-    }
-  },
+  "author": "Mochidokie",
+  "license": "MIT",
   "devDependencies": {
-    "electron": "^41.2.1",
-    "electron-builder": "^26.8.1"
+    "electron": "^28.0.0",
+    "electron-packager": "^17.1.1"
   }
 }
